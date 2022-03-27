@@ -1,4 +1,5 @@
 import * as readline from 'readline';
+import { Wallet } from './aggregate/Wallet';
 let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -11,19 +12,13 @@ let rl = readline.createInterface({
 // https://softwareengineering.stackexchange.com/questions/371708/too-many-unnecessary-events
 export const Db = [];
 
-
-// save events dans une liste 
-// quand on instancie l'aggregat, on replay la liste des events
-// currentState => projection ( quand on relay ça met à jour ça ET ce n'est jamais stocké, on stock les events qui eux vont transformer la projection)
-
 let cmdGenerator = () => {
 
-    rl.question("What do you want to do ? [Create/Add/Withdraw/Delete] [id]: " , answer => {
-      
-        switch(answer.toLowerCase().split("")[0]) {
+    rl.question("What do you want to do ? [Create/Add/Withdraw/Delete/Update] [id]: " , answer => {
+      console.log(answer.toLowerCase().split(" ")[0])
+        switch(answer.toLowerCase().split(" ")[0]) {
             case 'create':
               console.log('Create wallet !');
-              
               cmdGenerator();
               break;
             case 'add':
@@ -38,6 +33,11 @@ let cmdGenerator = () => {
                 console.log('Delete wallet !');
                 cmdGenerator();
                 break;
+            case 'update':
+                let wallet = new Wallet(`${answer.toLowerCase().split(" ")[1]}`);
+                wallet.amount = 52;
+                console.log(wallet.amount)
+                cmdGenerator();
             default:
               console.log('Invalid answer !');
               cmdGenerator();

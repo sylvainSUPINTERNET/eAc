@@ -1,14 +1,12 @@
-import { IEventsWallet } from "../interfaces/IEventsWallet";
 
-class WalletService implements IEventsWallet {
+class WalletService {
     
     constructor() {
 
     }
 
     WalletUpdateAmount(toAdd: number, currentAmount: number):number { 
-        // TODO save into DB
-        return 20000;
+        return toAdd + currentAmount;
     }
 
 
