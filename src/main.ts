@@ -16,26 +16,29 @@ let rl = readline.createInterface({
 export const Db:any[] = [];
 let currentWallet:any = {};
 
+let walletRepository:WalletV3Repository = new WalletV3Repository();
+let id = `${new Date().getTime()}`;
+
 let cmdGenerator = () => {
-
-
     rl.question("What do you want to do ? [Create/Add/Withdraw/Delete/Update] [id]: " , answer => {
-      let walletRepository:WalletV3Repository = new WalletV3Repository();
 
         switch(answer.toLowerCase().split(" ")[0]) {
             case 'create':
-              let id = `${new Date().getTime()}`;
               walletRepository.get(id);
               let newWallet = new WalletV3(id);
               newWallet.create(100);
               walletRepository.save(newWallet);
               console.log("created new wallet with success" , newWallet.id);
+              walletRepository.get(id);
+
+              id = newWallet.id;
+              console.log("created : ", id)
 
               cmdGenerator();
               break;
             case 'add':
-              
-              let currentWallet = walletRepository.get(`${answer.toLowerCase().split(" ")[1]}`);
+              console.log("add to " , id)
+              let currentWallet = walletRepository.get(id);
               currentWallet.addFund(10);
               walletRepository.save(currentWallet);
               console.log("New quantity", currentWallet.getCurrentState().quantity);

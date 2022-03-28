@@ -2,8 +2,12 @@ import { IEvent, IEventAddedFund, IEventCreated, IEventWithDrawFund, WalletV3 } 
 
 export class WalletV3Repository {
     // DB local to test
-    private _inMemoryStreams:Map<string, (IEventAddedFund | IEventWithDrawFund | IEventCreated)[]> = new Map();
+    private _inMemoryStreams:Map<string, (IEventAddedFund | IEventWithDrawFund | IEventCreated)[]>;
 
+
+    constructor() {
+        this._inMemoryStreams = new Map();
+    }
 
     /**
      * This is replaying all the events in the aggregate to get back to current state.
@@ -11,8 +15,6 @@ export class WalletV3Repository {
      * @returns 
      */
     public get(id:string): WalletV3{
-        console.log(id)
-        console.log(this._inMemoryStreams);
         let eventsList = this._inMemoryStreams.get(id);
         let wallet = new WalletV3(id);
 
@@ -38,8 +40,6 @@ export class WalletV3Repository {
         
         this._inMemoryStreams.get(wallet.id)?.push(...newEvents);
         wallet.eventsCommited();
-
-        console.log(this._inMemoryStreams.get(wallet.id))
     }
 
 }
