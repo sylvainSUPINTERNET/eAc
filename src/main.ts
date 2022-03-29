@@ -2,6 +2,7 @@ import * as readline from 'readline';
 import { Walletv2 } from './aggregate/Walletv2';
 import { WalletV3 } from './aggregate/WalletV3';
 import { WalletV3Repository } from './repositories/WalletV3Repository';
+
 let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
